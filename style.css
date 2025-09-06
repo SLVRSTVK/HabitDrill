@@ -153,12 +153,11 @@ h1 {
     bottom: 20px;
     left: 0;
     right: 0;
-    background: white;
+    background: transparent;
     display: flex;
     justify-content: space-around;
     align-items: center;
     padding: 20px 0 calc(20px + env(safe-area-inset-bottom));
-    border-top: 1px solid #e0e0e0;
     z-index: 1000;
 }
 
