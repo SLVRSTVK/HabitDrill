@@ -53,27 +53,8 @@ function createCalendar() {
     }, 100);
 }
 
-// Адаптация заголовка под размер экрана
-function adaptHeaderPosition() {
-    const header = document.querySelector('h1');
-    const isExpanded = tg.isExpanded;
-    const viewportHeight = tg.viewportHeight || window.innerHeight;
-    
-    if (isExpanded || viewportHeight > 650) {
-        // Полноэкранный режим - заголовок ниже
-        header.style.marginTop = '80px';
-    } else {
-        // Мини-приложение - заголовок выше
-        header.style.marginTop = '40px';
-    }
-}
-
 // Расширяем приложение на весь экран
 tg.expand();
-
-// Отслеживаем изменения размера окна
-window.addEventListener('resize', adaptHeaderPosition);
-tg.onEvent('viewportChanged', adaptHeaderPosition);
 
 // Обработка нижних табов
 function initTabsHandler() {
@@ -169,9 +150,6 @@ function initSwipeHandler() {
 // Инициализируем обработку свайпов и табов
 initSwipeHandler();
 initTabsHandler();
-
-// Адаптируем позицию заголовка
-setTimeout(adaptHeaderPosition, 200);
 
 // Готовность приложения
 tg.ready();
