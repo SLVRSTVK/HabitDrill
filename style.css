@@ -153,7 +153,7 @@ h1 {
     bottom: 20px;
     left: 0;
     right: 0;
-    background: transparent;
+    background: white;
     display: flex;
     justify-content: space-around;
     align-items: center;
