@@ -103,6 +103,10 @@ function initSwipeHandler() {
     let isDragging = false;
     
     contentBlock.addEventListener('touchstart', (e) => {
+        // Всегда предотвращаем стандартное поведение и всплытие
+        e.preventDefault();
+        e.stopPropagation();
+        
         // Проверяем, что касание не по интерактивным элементам
         const target = e.target;
         const isInteractive = target.closest('.habit-checkbox') || 
@@ -116,19 +120,17 @@ function initSwipeHandler() {
             return;
         }
         
-        e.preventDefault();
-        e.stopPropagation();
-        
         startY = e.touches[0].clientY;
         isDragging = true;
         contentBlock.style.transition = 'none';
     });
     
     contentBlock.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        
+        // Всегда предотвращаем стандартное поведение и всплытие
         e.preventDefault();
         e.stopPropagation();
+        
+        if (!isDragging) return;
         
         currentY = e.touches[0].clientY;
         const deltaY = currentY - startY;
@@ -141,10 +143,11 @@ function initSwipeHandler() {
     });
     
     contentBlock.addEventListener('touchend', (e) => {
-        if (!isDragging) return;
-        
+        // Всегда предотвращаем стандартное поведение и всплытие
         e.preventDefault();
         e.stopPropagation();
+        
+        if (!isDragging) return;
         
         isDragging = false;
         contentBlock.style.transition = 'transform 0.3s ease';
