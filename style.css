@@ -157,7 +157,7 @@ h1 {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+    padding: 40px 0 calc(12px + env(safe-area-inset-bottom));
     z-index: 1000;
 }
 
