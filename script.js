@@ -103,6 +103,19 @@ function initSwipeHandler() {
     let isDragging = false;
     
     contentBlock.addEventListener('touchstart', (e) => {
+        // Проверяем, что касание не по интерактивным элементам
+        const target = e.target;
+        const isInteractive = target.closest('.habit-checkbox') || 
+                             target.closest('.habit-skip') || 
+                             target.closest('button') || 
+                             target.closest('input') ||
+                             target.closest('.emoji-option');
+        
+        if (isInteractive) {
+            isDragging = false;
+            return;
+        }
+        
         startY = e.touches[0].clientY;
         isDragging = true;
         contentBlock.style.transition = 'none';
