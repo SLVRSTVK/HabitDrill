@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HabitDrill</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <h1>Hello World</h1>
+    <div id="user-info"></div>
+    <button id="close-btn">Закрыть приложение</button>
+    
+    <script>
+        // Инициализация Telegram Web App
+        const tg = window.Telegram.WebApp;
+        
+        // Показываем информацию о пользователе
+        const userInfo = document.getElementById('user-info');
+        if (tg.initDataUnsafe.user) {
+            userInfo.innerHTML = `
+                <p>Привет, ${tg.initDataUnsafe.user.first_name}!</p>
+                <p>ID: ${tg.initDataUnsafe.user.id}</p>
+            `;
+        }
+        
+        // Настраиваем кнопку закрытия
+        const closeBtn = document.getElementById('close-btn');
+        closeBtn.addEventListener('click', () => {
+            tg.close();
+        });
+        
+        // Расширяем приложение на весь экран
+        tg.expand();
+        
+        // Включаем главную кнопку
+        tg.MainButton.text = "Готово";
+        tg.MainButton.show();
+        tg.MainButton.onClick(() => {
+            tg.sendData("Hello from HabitDrill!");
+        });
+        
+        // Готовность приложения
+        tg.ready();
+    </script>
+</body>
+</html>
