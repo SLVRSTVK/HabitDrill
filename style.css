@@ -150,7 +150,7 @@ h1 {
 
 .bottom-tabs {
     position: fixed;
-    bottom: 0;
+    bottom: 20px;
     left: 0;
     right: 0;
     background: white;
