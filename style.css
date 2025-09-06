@@ -49,8 +49,8 @@ h1 {
 }
 
 .calendar-day .day-number {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border: 2px solid #666;
     border-radius: 50%;
     display: flex;
@@ -87,8 +87,8 @@ h1 {
 }
 
 .day-number {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 700;
     line-height: 1;
     color: #333;
 }
