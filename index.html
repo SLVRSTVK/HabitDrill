@@ -8,27 +8,11 @@
 </head>
 <body>
     <h1>Hello World</h1>
-    <div id="user-info"></div>
-    <button id="close-btn">Закрыть приложение</button>
     
     <script>
         // Инициализация Telegram Web App
         const tg = window.Telegram.WebApp;
         
-        // Показываем информацию о пользователе
-        const userInfo = document.getElementById('user-info');
-        if (tg.initDataUnsafe.user) {
-            userInfo.innerHTML = `
-                <p>Привет, ${tg.initDataUnsafe.user.first_name}!</p>
-                <p>ID: ${tg.initDataUnsafe.user.id}</p>
-            `;
-        }
-        
-        // Настраиваем кнопку закрытия
-        const closeBtn = document.getElementById('close-btn');
-        closeBtn.addEventListener('click', () => {
-            tg.close();
-        });
         
         // Расширяем приложение на весь экран
         tg.expand();
