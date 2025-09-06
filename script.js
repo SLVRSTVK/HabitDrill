@@ -101,12 +101,9 @@ function initSwipeHandler() {
     let startY = 0;
     let currentY = 0;
     let isDragging = false;
+    let startedOnInteractive = false;
     
     contentBlock.addEventListener('touchstart', (e) => {
-        // Всегда предотвращаем стандартное поведение и всплытие
-        e.preventDefault();
-        e.stopPropagation();
-        
         // Проверяем, что касание не по интерактивным элементам
         const target = e.target;
         const isInteractive = target.closest('.habit-checkbox') || 
@@ -115,10 +112,17 @@ function initSwipeHandler() {
                              target.closest('input') ||
                              target.closest('.emoji-option');
         
+        startedOnInteractive = isInteractive;
+        
         if (isInteractive) {
             isDragging = false;
+            // Для интерактивных элементов не блокируем клики
             return;
         }
+        
+        // Блокируем только для неинтерактивных элементов
+        e.preventDefault();
+        e.stopPropagation();
         
         startY = e.touches[0].clientY;
         isDragging = true;
@@ -126,9 +130,11 @@ function initSwipeHandler() {
     });
     
     contentBlock.addEventListener('touchmove', (e) => {
-        // Всегда предотвращаем стандартное поведение и всплытие
-        e.preventDefault();
-        e.stopPropagation();
+        // Блокируем только если касание началось не с интерактивного элемента
+        if (!startedOnInteractive) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         
         if (!isDragging) return;
         
@@ -143,11 +149,17 @@ function initSwipeHandler() {
     });
     
     contentBlock.addEventListener('touchend', (e) => {
-        // Всегда предотвращаем стандартное поведение и всплытие
-        e.preventDefault();
-        e.stopPropagation();
+        // Блокируем только если касание началось не с интерактивного элемента
+        if (!startedOnInteractive) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
         
-        if (!isDragging) return;
+        if (!isDragging) {
+            // Сбрасываем флаг даже если не было драггинга
+            startedOnInteractive = false;
+            return;
+        }
         
         isDragging = false;
         contentBlock.style.transition = 'transform 0.3s ease';
@@ -164,6 +176,9 @@ function initSwipeHandler() {
             contentBlock.classList.remove('collapsed');
             contentBlock.style.transform = '';
         }
+        
+        // Сбрасываем флаг
+        startedOnInteractive = false;
     });
     
     // Обработка клика по ручке
