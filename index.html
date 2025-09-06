@@ -15,8 +15,13 @@
         const tg = window.Telegram.WebApp;
         
         
-        // Расширяем приложение на весь экран
+        // Принудительное расширение с задержкой
         tg.expand();
+        setTimeout(() => {
+            if (!tg.isExpanded) {
+                tg.expand();
+            }
+        }, 300);
         
         // Включаем главную кнопку
         tg.MainButton.text = "Готово";
