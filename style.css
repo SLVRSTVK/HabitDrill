@@ -16,7 +16,7 @@ h1 {
 }
 
 .calendar-container {
-    margin: 0 -20px 30px -20px;
+    margin: 0 -20px 10px -20px;
     padding: 0 20px;
 }
 
@@ -107,7 +107,7 @@ h1 {
 
 .content-block {
     background: white;
-    border-radius: 20px 20px 0 0;
+    border-radius: 60px 60px 0 0;
     margin: 0 -20px;
     padding: 20px;
     min-height: 400px;
