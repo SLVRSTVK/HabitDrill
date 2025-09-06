@@ -108,6 +108,7 @@ function initSwipeHandler() {
         const target = e.target;
         const isInteractive = target.closest('.habit-checkbox') || 
                              target.closest('.habit-skip') || 
+                             target.closest('.habit-delete') ||
                              target.closest('button') || 
                              target.closest('input') ||
                              target.closest('.emoji-option');
@@ -225,6 +226,7 @@ function createHabitCard(habit) {
         </div>
         <div class="habit-right">
             <button class="habit-skip" data-id="${habit.id}">Пропустить</button>
+            <button class="habit-delete" data-id="${habit.id}">×</button>
         </div>
     `;
     
@@ -245,6 +247,13 @@ function createHabitCard(habit) {
         const habitId = parseInt(skipBtn.dataset.id);
         // Логика пропуска привычки
         console.log(`Пропущена привычка с ID: ${habitId}`);
+    });
+    
+    // Обработчик для кнопки удаления
+    const deleteBtn = habitCard.querySelector('.habit-delete');
+    deleteBtn.addEventListener('click', () => {
+        const habitId = parseInt(deleteBtn.dataset.id);
+        deleteHabit(habitId);
     });
     
     return habitCard;
@@ -268,6 +277,22 @@ function renderHabits() {
                 <p style="font-size: 14px;">Нажмите на кнопку "+" чтобы добавить первую привычку</p>
             </div>
         `;
+    }
+}
+
+// Функция для удаления привычки
+function deleteHabit(habitId) {
+    // Находим индекс привычки в массиве
+    const habitIndex = habits.findIndex(h => h.id === habitId);
+    
+    if (habitIndex !== -1) {
+        // Удаляем привычку из массива
+        habits.splice(habitIndex, 1);
+        
+        // Перерисовываем список привычек
+        renderHabits();
+        
+        console.log(`Удалена привычка с ID: ${habitId}`);
     }
 }
 
