@@ -194,22 +194,7 @@ initSwipeHandler();
 initTabsHandler();
 
 // Массив для хранения привычек
-let habits = [
-    {
-        id: 1,
-        name: 'Бегать',
-        emoji: '🏃',
-        completed: false,
-        createdAt: new Date()
-    },
-    {
-        id: 2,
-        name: 'Кушать',
-        emoji: '🍎',
-        completed: false,
-        createdAt: new Date()
-    }
-];
+let habits = [];
 let selectedEmoji = '🏃'; // По умолчанию
 
 // Функция для создания карточки привычки
