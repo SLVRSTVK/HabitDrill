@@ -14,21 +14,27 @@ function createCalendar() {
     // Массив названий месяцев
     const months = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
     
+    // Массив дней недели
+    const weekDays = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+    
     // Создаем дни месяца
     for (let day = 1; day <= daysInMonth; day++) {
+        const dayDate = new Date(currentYear, currentMonth, day);
+        const dayOfWeek = dayDate.getDay();
+        
         const dayElement = document.createElement('div');
         dayElement.className = 'calendar-day';
+        
+        const dayWeek = document.createElement('div');
+        dayWeek.className = 'day-week';
+        dayWeek.textContent = weekDays[dayOfWeek];
         
         const dayNumber = document.createElement('div');
         dayNumber.className = 'day-number';
         dayNumber.textContent = day;
         
-        const dayMonth = document.createElement('div');
-        dayMonth.className = 'day-month';
-        dayMonth.textContent = months[currentMonth];
-        
+        dayElement.appendChild(dayWeek);
         dayElement.appendChild(dayNumber);
-        dayElement.appendChild(dayMonth);
         
         // Выделяем сегодняшний день
         if (day === today.getDate()) {
