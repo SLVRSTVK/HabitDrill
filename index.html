@@ -10,23 +10,12 @@
 <body>
     <h1>Привычки</h1>
     
-    <script>
-        // Инициализация Telegram Web App
-        const tg = window.Telegram.WebApp;
-        
-        
-        // Расширяем приложение на весь экран
-        tg.expand();
-        
-        // Включаем главную кнопку
-        tg.MainButton.text = "Готово";
-        tg.MainButton.show();
-        tg.MainButton.onClick(() => {
-            tg.sendData("Hello from HabitDrill!");
-        });
-        
-        // Готовность приложения
-        tg.ready();
-    </script>
+    <div class="calendar-container">
+        <div class="calendar-scroll" id="calendar">
+            <!-- Календарь будет заполнен через JavaScript -->
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>
