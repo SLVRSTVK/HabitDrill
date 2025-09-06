@@ -78,7 +78,8 @@ function initTabsHandler() {
                     console.log('Открыт таб привычек');
                     break;
                 case 'add':
-                    console.log('Нажата кнопка добавления');
+                    // Открываем модальное окно для добавления привычки
+                    openAddHabitModal();
                     // Возвращаем active к предыдущему активному табу
                     const activeTab = document.querySelector('.tab-item[data-tab="habits"]');
                     if (activeTab) activeTab.classList.add('active');
@@ -151,5 +152,186 @@ function initSwipeHandler() {
 initSwipeHandler();
 initTabsHandler();
 
+// Массив для хранения привычек
+let habits = [
+    {
+        id: 1,
+        name: 'Бегать',
+        emoji: '🏃',
+        completed: false,
+        createdAt: new Date()
+    },
+    {
+        id: 2,
+        name: 'Кушать',
+        emoji: '🍎',
+        completed: false,
+        createdAt: new Date()
+    }
+];
+let selectedEmoji = '🏃'; // По умолчанию
+
+// Функция для создания карточки привычки
+function createHabitCard(habit) {
+    const habitCard = document.createElement('div');
+    habitCard.className = 'habit-item';
+    habitCard.innerHTML = `
+        <div class="habit-left">
+            <div class="habit-checkbox ${habit.completed ? 'checked' : ''}" data-id="${habit.id}"></div>
+            <div class="habit-info">
+                <div class="habit-emoji">${habit.emoji}</div>
+                <div class="habit-name">${habit.name}</div>
+            </div>
+        </div>
+        <div class="habit-right">
+            <button class="habit-skip" data-id="${habit.id}">Пропустить</button>
+        </div>
+    `;
+    
+    // Обработчик для чекбокса
+    const checkbox = habitCard.querySelector('.habit-checkbox');
+    checkbox.addEventListener('click', () => {
+        const habitId = parseInt(checkbox.dataset.id);
+        const habit = habits.find(h => h.id === habitId);
+        if (habit) {
+            habit.completed = !habit.completed;
+            checkbox.classList.toggle('checked');
+        }
+    });
+    
+    // Обработчик для кнопки "Пропустить"
+    const skipBtn = habitCard.querySelector('.habit-skip');
+    skipBtn.addEventListener('click', () => {
+        const habitId = parseInt(skipBtn.dataset.id);
+        // Логика пропуска привычки
+        console.log(`Пропущена привычка с ID: ${habitId}`);
+    });
+    
+    return habitCard;
+}
+
+// Функция для отображения привычек
+function renderHabits() {
+    const container = document.getElementById('habitsContainer');
+    container.innerHTML = '';
+    
+    habits.forEach(habit => {
+        const card = createHabitCard(habit);
+        container.appendChild(card);
+    });
+    
+    // Если нет привычек, показываем заглушку
+    if (habits.length === 0) {
+        container.innerHTML = `
+            <div style="text-align: center; color: #666; padding: 40px 20px;">
+                <p>Пока нет привычек</p>
+                <p style="font-size: 14px;">Нажмите на кнопку "+" чтобы добавить первую привычку</p>
+            </div>
+        `;
+    }
+}
+
+// Функция для открытия модального окна
+function openAddHabitModal() {
+    const modal = document.getElementById('addHabitModal');
+    const habitName = document.getElementById('habitName');
+    const saveBtn = document.getElementById('saveBtn');
+    
+    // Сбрасываем форму
+    habitName.value = '';
+    selectedEmoji = '🏃';
+    saveBtn.disabled = true;
+    
+    // Выбираем первый эмодзи по умолчанию
+    document.querySelectorAll('.emoji-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    document.querySelector('[data-emoji="🏃"]').classList.add('selected');
+    
+    modal.style.display = 'flex';
+    setTimeout(() => habitName.focus(), 100);
+}
+
+// Функция для закрытия модального окна
+function closeAddHabitModal() {
+    const modal = document.getElementById('addHabitModal');
+    modal.style.display = 'none';
+}
+
+// Функция для сохранения привычки
+function saveHabit() {
+    const habitName = document.getElementById('habitName').value.trim();
+    
+    if (habitName && selectedEmoji) {
+        const newHabit = {
+            id: Date.now(), // Простой ID на основе времени
+            name: habitName,
+            emoji: selectedEmoji,
+            completed: false,
+            createdAt: new Date()
+        };
+        
+        habits.push(newHabit);
+        renderHabits();
+        closeAddHabitModal();
+        
+        console.log('Добавлена новая привычка:', newHabit);
+    }
+}
+
+// Инициализация модального окна
+function initHabitsModal() {
+    const modal = document.getElementById('addHabitModal');
+    const closeBtn = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const habitName = document.getElementById('habitName');
+    
+    // Закрытие модального окна
+    closeBtn.addEventListener('click', closeAddHabitModal);
+    cancelBtn.addEventListener('click', closeAddHabitModal);
+    
+    // Закрытие по клику на фон
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeAddHabitModal();
+        }
+    });
+    
+    // Сохранение привычки
+    saveBtn.addEventListener('click', saveHabit);
+    
+    // Валидация поля ввода
+    habitName.addEventListener('input', () => {
+        const isValid = habitName.value.trim().length > 0;
+        saveBtn.disabled = !isValid;
+    });
+    
+    // Обработка Enter в поле ввода
+    habitName.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !saveBtn.disabled) {
+            saveHabit();
+        }
+    });
+    
+    // Выбор эмодзи
+    document.querySelectorAll('.emoji-option').forEach(option => {
+        option.addEventListener('click', () => {
+            // Убираем выделение с других эмодзи
+            document.querySelectorAll('.emoji-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Выделяем выбранный эмодзи
+            option.classList.add('selected');
+            selectedEmoji = option.dataset.emoji;
+        });
+    });
+}
+
 // Готовность приложения
 tg.ready();
+
+// Инициализируем модальное окно и отображаем привычки
+initHabitsModal();
+renderHabits();
