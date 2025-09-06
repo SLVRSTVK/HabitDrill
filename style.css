@@ -66,8 +66,9 @@ h1 {
 
 .calendar-day.today {
     background: #e5e4ea;
-    border-radius: 25px;
-    padding: 4px;
+    border-radius: 20px;
+    padding: 6px 3px 10px 3px;
+    width: 44px;
 }
 
 .calendar-day.today .day-number {
@@ -79,7 +80,7 @@ h1 {
 .calendar-day.today::after {
     content: '';
     position: absolute;
-    bottom: 2px;
+    bottom: 6px;
     width: 6px;
     height: 6px;
     background: #333;
