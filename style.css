@@ -171,6 +171,12 @@ h1 {
     transition: all 0.2s ease;
     min-width: 60px;
     height: 48px;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .tab-item span {
@@ -194,6 +200,12 @@ h1 {
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .add-button span {
