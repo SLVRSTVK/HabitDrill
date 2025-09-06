@@ -66,5 +66,61 @@ tg.MainButton.onClick(() => {
 // Создаем календарь после загрузки страницы
 createCalendar();
 
+// Обработка свайпов для content-block
+function initSwipeHandler() {
+    const contentBlock = document.getElementById('contentBlock');
+    let startY = 0;
+    let currentY = 0;
+    let isDragging = false;
+    
+    contentBlock.addEventListener('touchstart', (e) => {
+        startY = e.touches[0].clientY;
+        isDragging = true;
+        contentBlock.style.transition = 'none';
+    });
+    
+    contentBlock.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        
+        currentY = e.touches[0].clientY;
+        const deltaY = currentY - startY;
+        
+        // Ограничиваем перемещение
+        if (deltaY > 0) {
+            const translateY = Math.min(deltaY, window.innerHeight * 0.5);
+            contentBlock.style.transform = `translateY(${translateY}px)`;
+        }
+    });
+    
+    contentBlock.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        
+        isDragging = false;
+        contentBlock.style.transition = 'transform 0.3s ease';
+        
+        const deltaY = currentY - startY;
+        const threshold = window.innerHeight * 0.2; // 20% от высоты экрана
+        
+        if (deltaY > threshold) {
+            // Сворачиваем
+            contentBlock.classList.add('collapsed');
+            contentBlock.style.transform = '';
+        } else {
+            // Возвращаем на место
+            contentBlock.classList.remove('collapsed');
+            contentBlock.style.transform = '';
+        }
+    });
+    
+    // Обработка клика по ручке
+    const dragHandle = document.querySelector('.drag-handle');
+    dragHandle.addEventListener('click', () => {
+        contentBlock.classList.toggle('collapsed');
+    });
+}
+
+// Инициализируем обработку свайпов
+initSwipeHandler();
+
 // Готовность приложения
 tg.ready();

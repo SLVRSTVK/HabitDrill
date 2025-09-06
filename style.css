@@ -116,4 +116,19 @@ h1 {
     padding: 20px;
     flex: 1;
     min-height: 0;
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.content-block.collapsed {
+    transform: translateY(50vh);
+}
+
+.drag-handle {
+    width: 40px;
+    height: 4px;
+    background: #ccc;
+    border-radius: 2px;
+    margin: -10px auto 20px auto;
+    cursor: pointer;
 }
