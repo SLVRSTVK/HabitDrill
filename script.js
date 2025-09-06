@@ -116,6 +116,9 @@ function initSwipeHandler() {
             return;
         }
         
+        e.preventDefault();
+        e.stopPropagation();
+        
         startY = e.touches[0].clientY;
         isDragging = true;
         contentBlock.style.transition = 'none';
@@ -123,6 +126,9 @@ function initSwipeHandler() {
     
     contentBlock.addEventListener('touchmove', (e) => {
         if (!isDragging) return;
+        
+        e.preventDefault();
+        e.stopPropagation();
         
         currentY = e.touches[0].clientY;
         const deltaY = currentY - startY;
@@ -136,6 +142,9 @@ function initSwipeHandler() {
     
     contentBlock.addEventListener('touchend', (e) => {
         if (!isDragging) return;
+        
+        e.preventDefault();
+        e.stopPropagation();
         
         isDragging = false;
         contentBlock.style.transition = 'transform 0.3s ease';
