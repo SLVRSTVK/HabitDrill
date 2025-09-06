@@ -56,12 +56,40 @@ function createCalendar() {
 // Расширяем приложение на весь экран
 tg.expand();
 
-// Включаем главную кнопку
-tg.MainButton.text = "Готово";
-tg.MainButton.show();
-tg.MainButton.onClick(() => {
-    tg.sendData("Hello from HabitDrill!");
-});
+// Обработка нижних табов
+function initTabsHandler() {
+    const tabItems = document.querySelectorAll('.tab-item');
+    
+    tabItems.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const tabType = tab.dataset.tab;
+            
+            // Убираем active с всех табов
+            tabItems.forEach(t => t.classList.remove('active'));
+            
+            // Добавляем active к текущему табу
+            if (tabType !== 'add') {
+                tab.classList.add('active');
+            }
+            
+            // Обработка кликов по табам
+            switch(tabType) {
+                case 'habits':
+                    console.log('Открыт таб привычек');
+                    break;
+                case 'add':
+                    console.log('Нажата кнопка добавления');
+                    // Возвращаем active к предыдущему активному табу
+                    const activeTab = document.querySelector('.tab-item[data-tab="habits"]');
+                    if (activeTab) activeTab.classList.add('active');
+                    break;
+                case 'stats':
+                    console.log('Открыт таб статистики');
+                    break;
+            }
+        });
+    });
+}
 
 // Создаем календарь после загрузки страницы
 createCalendar();
@@ -119,8 +147,9 @@ function initSwipeHandler() {
     });
 }
 
-// Инициализируем обработку свайпов
+// Инициализируем обработку свайпов и табов
 initSwipeHandler();
+initTabsHandler();
 
 // Готовность приложения
 tg.ready();
